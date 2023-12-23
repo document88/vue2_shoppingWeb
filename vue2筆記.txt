@@ -1,0 +1,2300 @@
+// 應用
+   1.路由
+     this.$router.push('/') // 導航至指定頁面
+     this.$router.replace('/') // 導航至指定頁面但不會留下歷史紀錄
+     this.$router.back() // this.$router.go(-1) // 前往上一頁
+     this.$router.forward() // this.$router.go(1) // 前往下一頁
+     this.$route.path // 獲取當前路由的路徑
+     this.$route.fullPath // 獲取當前路由的完整路徑包括參數
+     this.$route.query.參數名 // 獲取查詢參數的值
+     this.$route.params.參數名 // 獲取動態路由傳參的值
+   2.其他
+     ref="n" this.$refs.n.focus() // 對被賦予ref屬性n的元素執行.focus()
+     e.target.value // e:事件 target:事件元素 觸發事件的元素的屬性值
+     .headers['Access-Token'] // 屬性名稱有-需使用['']
+   
+
+// vue特性
+   1.數據驅動視圖
+     修改=>頁面數據 => vue => 頁面結構
+   2.雙向數據綁定
+     修改=>頁面數據 => vue => 頁面結構
+     修改=>頁面結構 => vue => 頁面數據
+   MVVM
+   Model.數據 <=> ViewModel.Vue <=> view.頁面
+
+// 基本使用在new Vue({})構造函數中輸入
+   在#控制區域中使用{{數據屬性}}得到數據值
+   在#控制區域中使用@click="add"觸發add事件
+   le: '#控制區域'
+   data: {數據屬性: '數據值'}
+   methods: {add: () => {}}
+   filters: {函式(形參) {return 結果}}
+   watch: {屬性名(newVal, oldVal) {}}
+   computed: {屬性名() {return 結果}}
+
+// 內容渲染指令
+   v-text
+   {{ }}
+   v-html
+// 屬性綁定指令
+   v-bind: // 簡寫:
+   :class="['class1','class2']"
+   :class="{class1: true, class2: false}"
+// 事件綁定指令
+   v-on:click="function" // 簡寫@click
+   // 事件修飾符
+      @click.prevent="function" // 阻止默認事件
+      @click.stop="function" // 阻止冒泡
+   // 案件修飾符
+      @keyup.enter="function" // 只有enter鍵能觸發
+// 雙向綁定指令
+   v-model="數據屬性"
+   // v-model修飾符
+      v-model.number="數據屬性" // 數據轉數值
+      v-model.trim="數據屬性" // 清除數據前後空白
+      v-model.lazy="數據屬性" // 事件觸發改為change而非input
+// 條件渲染指令
+   v-if="true"
+   // if與else條件
+      v-if="f===1"
+      v-else-if="f===2"
+      v-else
+   v-show="true"
+// 列表渲染指令
+   v-for="(item, index) in list"
+   // 同標籤內附加key
+   :key="item.id"
+
+// 過濾器
+   {{ 參數 | 函式(參數1) }}
+   filters: {函式(形參) {return 結果}}
+   // 全局使用
+   Vue.filter('函式名', function(形參, 形參1) {return 結果})
+   
+// 監聽器
+   watch: {屬性名(newVal, oldVal) {}}
+   // 對象格式(開網頁須立即觸發時使用immediate,監聽對象中的所有屬性使用deep)
+   watch: {屬性名: { handler(newVal, oldVal) {}, immediate: true, deep: true}}
+
+// 計算屬性
+   computed: {屬性名() {return 結果}}
+
+// vue生命週期
+   created(){} 創建數據
+   mounted(){} 操作dom
+   destroyed(){} 組件被銷毀
+   updated(){} 修改數據更新視圖
+   beforeDestroy(){} 釋放資源
+
+// 安裝vue-cli與初始化
+   1.安裝npm install -g @vue/cli
+   2.確認版本vue --version
+   2.創建vue create 項目名稱
+   三個選項 vue2 vue3 自定義
+   //自定義
+   Choose Vue選擇vue版本, Babel解析js語法, CSS使用less等處理器
+   3.運行npm run serve // 運行package.json中scripts的server
+
+// 使用less
+   1.在樣式標籤加入<style lang="less"> 
+   2.yarn add less less-loader
+
+// scoped避免css汙染
+   在樣式標籤加入<style scoped> 
+
+// 數據傳遞
+   1.props 父傳子
+     父要做的事<子 :接收名稱=數據名稱></子>
+     子要做的事props: {接收名稱: 限制類型}
+   2.$emit 子傳父
+     子要做的事this.$emit('接收事件名', 子事件)
+     父要做的事<子 @接收事件名=事件名稱></子>
+       methods: {
+         事件名稱 (子事件的結果) {父事件}
+       }
+
+// 組件內查找元素
+   ref屬性設置 ref="name"
+   $refs查找元素 this.$refs.name
+   
+// 等待異步更新
+   this.$nextTick(()=>{})
+
+// 自訂義指令
+   全局
+     Vue.directive('指令名',{"inserted" (el) {el.focus()}})
+   局部
+     directives:{"指令名": {inserted (el) {el.focus()}}}
+   inserted : 元素被添加時觸發
+   update : 指令的質變化時觸發
+   el : 元素
+   binding : 綁定 binding.value:綁定的值
+
+// 插槽
+   佔位
+     <slot name="n">預設內容</slot>
+   插入內容
+     <template v-slot:n>內容</template>
+     <template #n>內容</template>
+   name屬性 : 具名插槽
+   :row="item" : 在slot添加屬性傳值
+   #n="obj" : 在templat添加obj接收傳值 obj.row=item
+
+// 安裝路由Vue-router
+   1.下載 : npm i vue-router@3.6.5 -D
+   2.引入 : import VueRouter from 'vue-router'
+   3.註冊 : Vue.use(VueRouter)
+   4.創建對象 : const router = new VueRouter()
+   5.注入到new Vue : new Vue({router:router})
+
+   6.引入組件放在views目錄
+       import ComponentName from './views/ComponentName.vue'
+   7.在對象中加入路由規則 指定路徑與組件
+       const router = new VueRouter({
+         routes: [
+           {path:'/絕對路徑', component:ComponentName}
+         ]
+       })
+   8.在a標籤加入組件的路徑
+       <a href="#/絕對路徑">
+   9.路由出口
+       <router-view></router-view>
+  10.路由高亮標籤
+       <router-link to="/絕對路徑"></router-link>
+     自動類名
+       router-link-active 模糊匹配 路徑以下都有=>/絕對路徑/...
+       router-link-exact-active 精確匹配 只有=>/絕對路徑
+     更改類名
+       const router = new VueRouter({
+         linkActiveClass: "router-link-active的新名稱"
+         linkExactActiveClass: "router-link-exact-active的新名稱"
+       })
+  11.路由跳轉傳參
+      1.查詢參數傳參
+        跳轉 => to="path?參數名=值&參數名2=值"
+        獲取 => $route.query.參數名
+      2.動態路由傳參
+        配置路由 => path:"/path/:參數名?" 最後的?是可選符代表可以不傳值
+        跳轉 => to="path/值"
+        獲取 => $route.params.參數名
+      3.查詢參數跳轉並傳參
+	this.$router.push({
+	  path: '/path',
+	  query: {
+	    參數名: 值
+	  }
+	})
+  12.重定向
+      將路徑/轉至路徑/home
+      path:'/', redirect: '/home'
+  13.配置默認路徑
+      用於404找不到網頁路徑時使用 因為*代表任意路徑所以須放置在最後
+      path:'*', component:NotFound
+  14.二級路由children
+      routes: [
+           {path:'/一級路由路徑', component:ComponentName,
+            children:[{path:'/二級路由路徑', component:ComponentName}]
+           }
+         ]
+  15.路由模式
+      默認值為hash時路徑有# history則沒有#
+      const router = new VueRouter({
+         mode: "history"
+       })
+  16.js事件跳轉
+      this.$router.push({
+        path:'/絕對路徑',//不設置name時才需要路徑
+        name:'路由名稱',
+        query: {參數名: 參數值},//查詢參數傳參
+        params: {參數名: 參數值},//動態路由傳參
+      })
+     使用name要先設置
+      const router = new VueRouter({
+         routes: [
+           {name:'路由名稱', path:'/絕對路徑', component:ComponentName}
+         ]
+       })
+  17.緩存
+       包覆路由出口標籤
+         <keep-alive></keep-alive>
+       屬性
+         :include="[只有這裡的組件會緩存]"
+         :exclude="[只有這裡的組件不會緩存]" 
+         :max="最多緩存幾個"
+       緩存的生命週期鉤子
+         activated(){組件被激活時要做的事}
+         deactivated(){組件失活時要做的事}
+
+// 自定義創建VUE
+     1.創建vue create 項目名稱
+     2.Router CSS
+     3.Vue.js vue的版本
+     4.Use history Router的模式選擇n
+     5.Css預設 選擇Less
+     6.無分號規範 ESLint + Standard config
+     7.無分號規範存檔時偵錯 Lint on save
+     8.將配置文件放在專用文件檔 In dedicated config files
+
+// ESLint規範自動修正
+     1.下載ESLint插件
+     2.在設置中輸入 保存時自動修正 不自動格式化
+       "editor.codeActionsOnSave": {
+         "source.fixAll": true
+       },
+       "editor.formatOnSave": false
+       
+// 安裝數據倉庫Vuex
+   1.下載 : npm i vuex@3 -D
+   2.引入 : '@/store/index' import Vuex from 'vuex' import Vue from 'vue'
+   3.註冊 : '@/store/index' Vue.use(Vuex)
+   4.創建對象 : '@/store/index' const store = new Vuex.Store({})
+   5.導出 : export default store
+   6.注入到main.js中 import store from '@/store/index' new Vue : new Vue({store:store})
+   7.在store對象中加入數據與設置
+     1.嚴格模式
+       strict: true
+     2.放置數據
+       state: {}
+
+   8.使用數據
+     1.直接使用
+       {{$store.state.數據名}}
+       this.$store.state.數據名
+     2.簡化{mapState}
+       1.解構
+         import {mapState} from 'vuex'
+       2.在計算屬性中展開
+         computed: {...mapState(['數據名1','數據名2'])}
+       3.簡化使用
+         {{數據名}}
+
+   9.修改數據
+     1.在store對象中加入修改方法
+       mutations: {函式名 (state, 參數) {state.數據名 += 1}}
+     2.使用
+       methods:{
+         @click的函式名 (參數) {
+           this.$store.commit('函式名', 參數)
+         }
+       }
+     3.#參數的使用只能放一個參數或使用一個對象來傳參
+     4.簡化
+       1.import {mapMutations} from 'vuex'
+       2.methods: {...mapMutation(['函式名'])}
+
+  10.處理異步
+     1.在store對象中加入修改方法
+       actions: {異步函式名 (context, 參數) {setTimeout(()=>{context.commit('修改函式名',參數)},1000)}}
+       #注意第一個參數必須是context
+     2.使用
+       methods:{
+         @click的函式名 (參數) {
+           this.$store.dispatch('異步函式名', 參數)
+         }
+       }
+     3.簡化
+       1.import {mapActions} from 'vuex'
+       2.methods: {...mapAcations(['異步函式名'])} 
+  
+  11.類計算屬性
+     1.在store對象中加入計算屬性
+       getters:{計算函式名 (state) {return state.list.filter(i=>i>5)}}
+     2.使用
+       {{$store.getters.計算函式名}}
+     3.簡化
+       1.import {mapGetters} from 'vuex'
+       2.computed: {...mapGetters(['計算函式名'])} 
+ 
+  12.模塊化
+     1.導入
+       import 模塊名 from './模塊路徑'
+     2.在store對象中加入模塊
+       module: {模塊名}
+     3.使用模塊的state
+       $store.state.模塊名.數據名
+       #注意state要寫在模塊名前面
+         1.簡化
+           computed: {...mapState(['模塊名']}
+           #這樣會導出整個模塊
+         2.子模塊映射
+           1.開啟命名空間 在模塊.js中導出
+             export default {
+               namespaced: true
+             }
+           2.指定模塊與數據
+             computed: {...mapState('模塊名',['數據名']}
+             #這樣會導出指定的模塊中的數據
+     4.使用模塊的getters
+       1.原生
+         $store.getters['模塊名/計算函式名']
+       2.簡化
+         computed: {...mapGetters('模塊名',['計算函式名']}
+     5.使用模塊的mutations
+       1.原生
+         $store.commit('模塊名/修改函式名',參數)
+       2.簡化
+         methods: {...mapMutations('模塊名',['修改函式名']}
+     6.使用模塊的actions
+       1.原生
+         $store.dispatch('模塊名/異步函式名',參數)
+       2.簡化
+         methods: {...mapActions('模塊名',['異步函式名']}
+
+// 安裝包的依賴衝突解決辦法
+   1.npm i axios --legacy-peer-deps
+   2.npm i axios --force
+
+// vue組件庫
+   PC: element-ui(element-plus), ant-design-vue
+   移動端: vant-ui, Mint UI, Cube UI
+
+// Vuex購物車實例
+   1.創建新的vue項目
+     vue create vue-cart-demo
+   2.自定義
+     Vuex CSS, 2.x, Less, ESLint + Standard config, 
+     Lint on save, In dedicated config files
+   3.啟動vue項目
+     npm run serve
+     http://localhost:8080/
+   4.使用json-server
+     1.安裝
+       npm i -g json-server
+     2.新增json文件
+       @/db/index.json
+     3.文件格式
+       {
+         "cart": [
+           { "id": 1, "name": "明子", "price": 100, "count": 1 }
+         ]
+       }
+       #注意: 字串都要用"雙引號包覆"
+     4.在db目錄下訪問接口
+       json-server index.json
+       http://localhost:3000/cart
+     5.在cart.js開啟命名空間與準備actions和mutations並導入index.js
+       namespaced: true,
+       state () { return { list: [] } },
+       mutations: {
+         updateList (state, payload) {
+           state.list = payload
+         }
+       },
+       actions: {
+         async getList (context) {
+           const res = await axios.get('http://localhost:3000/cart')
+           context.commit('updateList', res.data)
+         }
+       }
+     6.在主組件中使用action觸發mutations修改state
+       created () {
+         this.$store.dispatch('cart/getList')
+       },
+       在主組件中獲取修改後的state裡的數據
+       import { mapState } from 'vuex'
+       computed: {
+         ...mapState('cart', ['list'])
+       }
+       在主組件中對子組件傳送數據
+       <子組件 v-for="item in list" :key="item.id" :item="item"></子組件>
+     7.在子組件接收:item="item"傳來的數據
+       props: {
+         item: {
+           type: Object,
+           required: true
+         }
+       }
+     8.按鈕更新count
+       1.actions中異步更新後台數據
+         actions: {
+           async updateCount (context, obj) {
+             await axios.patch(`http://localhost:3000/cart/${obj.id}`, {
+               count: obj.newCount
+             })
+           }
+         {
+         #注意: 這裡傳入obj代表之後要傳入的參數是一個對象
+       2.子組件methods中使用異步函式傳入更新後的參數
+         btnClick (step) {
+           const newCount = this.item.count + step
+           const id = this.item.id
+           if (newCount < 1) return
+           this.$store.dispatch('cart/updateCount', {id, newCount})
+         }
+       3.即時更新當前count數據
+	 mutations: {
+	   updateCountNow (state, obj) {
+	     const goods = state.list.find(i => i.id === obj.id)
+	     goods.count = obj.newCount
+   	   }
+	 }
+         actions: {
+	   async updateCount (context, obj) {
+	     context.commit('updateCountNow', {
+	       id: obj.id,
+               newCount: obj.newCount
+             })
+	   }
+	 }
+     9.數量與價格的總和
+       cart.js使用getters
+       getters: {
+	 totalCount (state) {
+	   return state.list.reduce((sum, item) => sum + item.count, 0)
+	 },
+	 totalPrice (state) {
+	   return state.list.reduce((sum, item) => sum + item.count * item.price, 0)
+	 }
+       }
+       子組件使用mapGetters
+       import { mapGetters } from 'vuex'
+       computed: {
+         ...mapGetters('cart', ['total', 'totalPrice'])
+       }
+
+// Vuex購物車實例2
+   1.創建新的vue項目
+     vue create vue-cart-demo
+   2.自定義
+     Router Vuex CSS, 2.x, Hash模式輸入N, Less, ESLint + Standard config, 
+     Lint on save, In dedicated config files
+   3.新增放置模塊資料夾
+     api: ajax請求接口模塊
+     utils: 放置工具模塊
+   4.安裝vant
+     1.npm i vant@latest-v2
+     2x.全部導入:在main.js註冊
+        import Vant from 'vant'
+        import 'vant/lib/index.css'
+        Vue.use(Vant)
+     2z.案須導入:
+        npm i babel-plugin-import -D
+        在babel.config.js中配置
+        module.exports = {
+  	  plugins: [
+    	    ['import', {
+     	      libraryName: 'vant',
+    	      libraryDirectory: 'es',
+   	      style: true
+  	    }, 'vant']
+ 	  ]
+	};
+        在utils/vant-ui.js中啟用要導入的模塊
+        import Vue from 'vue'
+        import { Button, Switch } from 'vant'
+        Vue.use(Button)
+        Vue.use(Switch)
+        將vant-ui.js導入main.js
+        import '@/utils/vant-ui'
+     3.Viewport布局
+       安裝:npm i postcss-px-to-viewport@1.1.1
+       新增:根目錄/postcss.config.js
+            module.exports = {
+              plugins: {
+                'postcss-px-to-viewport': {
+		  viewportWidth: 375
+		}
+              }
+            }
+   5.配置路由
+       router/index.js中導入路由頁面
+       import Login from '@/views/login/index.vue'
+       import Layout from '@/views/layout/index.vue'
+       import Search from '@/views/search/index.vue'
+       import SearchList from '@/views/search/list.vue'
+       import ProDetail from '@/views/prodetail/index.vue'
+       import Pay from '@/views/pay/index.vue'
+       import MyOrder from '@/views/myorder/index.vue'
+       routes: {
+	 { path: '/login', component: Login },
+	 { path: '/', component: Layout },
+	 { path: '/search', component: Search },
+	 { path: '/searchlist', component: SearchList },
+	 { path: '/prodetail/:id', component: ProDetail },
+	 { path: '/pay', component: Pay },
+	 { path: '/myorder', component: MyOrder },
+       }
+       在views資料夾創建路由頁面並加入路由頁面的駝峰名稱
+       export default { name: 'LoginIndex' }
+   6.layout頁面
+       1.使用導航組件的標籤欄<van-tabbar>
+         icon: wap-home-o, apps-o, shopping-cart-o, user-o
+         在utils/vant-ui.js中啟用要導入的模塊
+         使用<van-tabbar route> 來啟用to="/home"
+       2.router/index.js中導入路由頁面
+         在layout中加入二級路由children: []
+         並重定向首頁redirect: '/home'
+   7.布局樣式
+       新增src/styles/common.less
+       main.js導入import @/styles/common.less
+       * {
+	 margin: 0;
+	 padding: 0;
+         box-sizing: border-box;
+       }
+   8.登入頁面login
+       使用vant的 NavBar 導航欄
+       先在vant-ui.js導入NavBar
+   9.Axios設置
+       1.創建utils/request.js
+       2.在其中創建axios實例
+         const instance = axios.create({
+  	   baseURL: 'http://cba.itlike.com/public/index.php?s=/api/',
+  	   timeout: 5000,
+	 });
+       3.為axios實例設置攔截器
+	 // config是請求配置對象
+	 // 添加请求拦截器
+         instance.interceptors.request.use(function (config) {
+    	 // 在发送请求之前做些什么
+   	   return config
+ 	 }, function (error) {
+  	 // 对请求错误做些什么
+    	   return Promise.reject(error)
+  	 })
+	 // 添加响应拦截器
+	 instance.interceptors.response.use(function (response) {
+    	 // 2xx 范围内的状态码都会触发该函数。
+    	 // 对响应数据做点什么
+    	   return response.data
+  	 }, function (error) {
+    	 // 超出 2xx 范围的状态码都会触发该函数。
+    	 // 对响应错误做点什么
+    	   return Promise.reject(error)
+  	 })
+       4.導出axios實例
+         export default instance
+   10.在login/index.vue發起驗證圖請求
+         1.封裝獲取驗證碼模塊(使用request實例)
+           @/api/login.js
+           import request from '@/utils/request'
+           export const getLogin () => {
+             return request.get('/captcha/image')
+           }
+         2.封裝獲取驗證碼圖形與key的函式(使用getLogin模塊)
+	   import { getLogin } from @/api/login.js
+           methods: {
+	     async getPicCode () {
+	       const { data: { base64, key } } = await getLogin()
+	       this.picUrl = base64
+	       this.picKey = Key
+	     }
+	   }
+         3.使用封裝函式獲取驗證碼
+           export default {
+             data () {
+	       return {
+		 picCode: '', //用戶在imput輸入的驗證碼 使用v-model="picCode"
+		 picKey: '',  //驗證圖的唯一標示
+		 picUrl: ''   //驗證圖
+	       }
+	     },
+	     async created () {
+	       this.getPicCode()
+	     }
+           }
+         4.使用獲取的數據配置img
+	   v-show="picUrl"
+	   @click="getPicCode()"
+         5.防抖
+           getButton () {
+      	     let timeOut
+      	     return () => {
+               clearTimeout(timeOut)
+               timeOut = setTimeout(() => {
+               this.getPicCode()
+               }, 300)
+             }
+           },
+	   created () {
+    	     this.createdGetUrl = this.getButton()
+  	   },
+	   @click="createdGetUrl"
+   11.Toast輕提示
+	 @/utils/vant-ui註冊安裝Toast
+	 1.組件內直接調用
+	   this.$toast('提示');
+  	 2.導入調用
+	   import { Toast } from 'vant'
+	   Toast('提示')
+   12.驗證碼發送與倒計時
+	 1.宣告變數
+	   totalSecond: 60, //總秒數
+	   second: 60, //當前秒數
+	   timer: null //定時器id
+	 2.獲取驗證碼的按鈕
+	   {{ second === totalSecond ? '獲取驗證碼' : `等待${second}秒再次發送` }}
+	 3.按鈕的倒計時事件
+	   getCode () {
+	     if (!this.timer && this.second === this.totalSecond) {
+	       this.timer = setInterval(() => {
+	         this.second--
+		 if (this.second <= 0) {
+		   clearInterval(this.timer)
+		   this.timer = null
+		   this.second = this.totalSecond
+		 }
+	       }, 1000)
+	       this.$toast('發送成功')
+	     }
+	   }
+ 	   destroyed(){
+	     clearInterval(this.timer) // 離開當前頁面則清除倒計時
+	   }
+   13.檢驗手機號碼與驗證圖
+	 1.先綁定變量 v-model="" 
+	   mobile: ''
+	   picCode: ''
+	 2.用正則檢驗
+	   validFn () {
+	     if (!/^09\d{8}$/.test(this.mobile)) {
+	       this.$toast('請輸入正確的手機號碼')
+	       return false
+	     }
+	     if (!/^\w{4}$/.test(this.picCode)) {
+	       this.$toast('請輸入正確的圖形驗證碼')
+	       return false
+	     }
+	     return true
+	   }
+	 3.如果檢驗失敗則不繼續發送驗證碼
+	   getCode () {
+	     if (!this.validFn()) {
+	       return
+	     }
+	     ...
+	   }
+   14.短信驗證接口
+	 1.接口@/api/login.js
+	   export const getMsgCode = (captchaCode, captchaKey, mobile) => {
+	     return request.post('/captcha/sendSmsCaptcha', {
+	       form: {
+	         captchaCode,
+	         captchaKey,
+	         mobile
+	       }
+	     })
+	   }
+	 2.導入組件並使用異步驗證接口
+           import { getMsgCode } from @/api/login.js
+	   async getCode () {
+	     if (!this.timer && this.second === this.totalSecond) {
+	       const res = await getMsgCode(this.picCode, this.picKey, this.mobile)
+	       this.$toast(res.data.message)
+	     }
+	   }
+   15.登入接口
+      1.api接口@/api/login.js
+        export const codeLogin = (mobile, smsCode) => {
+	  return request.post('/passport/login', {
+	    form: {
+	      isParty: false, // 非第3方登入
+	      partyData: {}, // 第3方登入訊息
+	      mobile, // 手機號碼
+	      smsCode // 短信驗證碼預設246810
+	    }
+	  })
+	}
+      2.頁面中的methods
+	v-model="smgCode"
+	smgCode: ''
+        @click="login"
+        async login () {
+	  if (!this.validFn()) {
+	    return
+	  }
+	  if (!/^\d{6}$/.test(this.smgCode)) {
+	    this.$toast('短信驗證碼錯誤')
+	    return
+	  }
+	  const res = await codeLogin(this.mobile, this.smgCode)
+	  this.$router.push('/')
+	  this.$toast('登入成功')
+	}
+   16.接口發生錯誤時響應攔截器
+      1.在@/utils/request.js添加響應攔截器
+	import { Toast } from 'vant'
+        instance.interceptors.response.use(function (response) {
+	  const res = response.data // 也就是接口所回傳的數據
+	  if (res.status !== 200) {
+	    Toast(res.message)
+	    return Promise.reject(res.message)
+	  }
+    	  return res
+  	}
+   17.登入後數據使用vuex模塊化   
+      1.創建index模塊@/store/index.js
+	import user from './modules/user'
+	modules: {user}
+      2.創建登入後數據的user模塊@/store/modules/user.js
+	export default {
+	  namespaced: true,
+	  state () {
+	    return {
+	      userInfo: {
+	        token: '',
+		userId: ''
+	      }
+	    }
+	  },
+	  mutations: {
+	    setUserInfo (state, obj) {
+	      state.userInfo = obj
+	    }
+	  },
+	  actions: {},
+	  getters: {}
+	}
+      3.在頁面中用commit調用mutations
+	在確認手機與驗證碼並登入成功後將接口數據傳入user模塊
+	await codeLogin(this.mobile, this.smgCode)
+        this.$store.commit('user/setUserInfo', res.data)
+      4.數據持久化存入本地暫存
+	1.@/utils/storage.js
+	  const INFO_KEY = 'hm_shopping_info'
+	  // 獲取數據
+	  export const getInfo = () => {
+	    const defaultObj = { token: '', userId: '' }
+	    const result = localStorage.getItem(INFO_KEY)
+	    return result ? JSON.parse(result) : defaultObj
+	  }
+	  // 儲存數據
+	  export const setInfo = (obj) => {
+	    localStorage.setItem(INFO_KEY, JSON.stringify(obj))
+	  }
+	  // 刪除數據
+	  export const removeInfo = () => {
+	    localStorage.removeItem(INFO_KEY)
+	  }
+	2.修改user模塊  
+	  @/store/modules/user.js
+	  import { getInfo, setInfo } from '@/utils/storage.js'
+	  // 模塊數據聯動本地數據
+	  userInfo: getInfo()
+	  // 修改模塊數據也修改本地數據 
+	  setUserInfo (state, obj) {
+	    setInfo(obj)
+	  }
+   18.請求攔截器的Toast禁止背景點擊(避免連續發送請求)
+      @/utils/request.js
+      請求攔截器請求時開啟Toast
+      Toast.loading({
+        message: '加載中...',
+	forbidClick: true, // 禁止背景點擊
+	loadingType: 'spinner', // loading圖標
+	duration: 0 // 消失倒數時間 0則不會消失
+      })   
+      響應攔截器成功響應時關閉Toast
+      else {
+	Toast.clear()
+      } 
+   19.導航守衛
+      // 路由設置完成後再設置導航守衛
+      const router = new VueRouter({...})
+      // 要攔截的路由
+      const authUrls = ['/pay', 'myorder']
+      // 開始設置導航守衛
+      router.beforeEach((to, from, next) => {
+	if (!authUrls.includes(to.path)) {
+	  next()
+	  return
+	}
+        // 如果是要登入才能進入的路由則確認store的user模塊的登入數據
+        import store from '@/store/index.js'
+        const token = store.state.user.userInfo.token
+        if (token) {
+          next()
+        } else {
+	  next('/login')
+        }
+	// to.path 你所要前往的路由
+        // next() ()直接放行 ('/')前往/路由
+      })
+   20.首頁結構
+      @/views/layout/home.vue
+      1.導航欄/導航組件
+        import { NavBar } from 'vant'
+      2.搜索框/表單組件
+	import { Search } from 'vant'
+      3.輪播/展示組件
+	import { Swipe, SwipeItem } from 'vant'
+      4.通知欄/展示組件
+	import { NoticeBar } from 'vant'
+      5.宮格/導航組件
+	import { Grid, GridItem } from 'vant'
+      6.猜你喜歡/導入子組件
+        <GoodsItem></GoodsItem>
+	import GoodsItem from '@/components/GoodsItem.vue'
+        components: {GoodsItem}
+	@/components/GoodsItem.vue
+        name: 'GoodsItem'
+        import { Card } from 'vant'
+   21.首頁API數據請求
+      1.封裝接口@/api/home.js
+        import request from '@/utils/request'
+	export const getHomeData = () => {
+	  return request.get('/page/detail', {
+	    params: {
+	      pageId: 0
+	    }
+	  })
+	}
+      2.發出請求@/views/layout/home.vue
+	import { getHomeData } from '@/api/home.js'
+	data () {
+	  return {
+	    bannerList: [], // 輪播圖
+	    navList: [], // 宮格導航
+	    proList: [] // 猜你喜歡商品
+	  }
+	}
+	async created () {
+	  const { data: { pageData } } = await getHomeData()
+	  this.bannerList = pageData.items[1].data
+	  this.navList = pageData.items[3].data
+	  this.proList = pageData.items[6].data
+	}
+      3.渲染
+	// 輪播圖
+        v-for="item in bannerList" :key="item.imgUrl" :src="item.imgUrl"
+	// 宮格導航
+	v-for="item in navList" :key="item.imgUrl" :icon="item.imgUrl"
+	// 猜你喜歡商品
+	<GoodsItem v-for="item in proList" :key="item.goods_id" :item="item">
+	@/components/GoodsItem.vue
+	props: {
+	  item: {
+	    type: Object,
+	    default: () => {
+	      return {}
+	    }
+	  }
+	}
+	v-if="item.goods_id" @click="$router.push(`/prodetail/${item.goods_id}`)"
+        :res="item.goods_image"{{ item.goods_name }}{{ item.goods_sales }}{{ item.goods_price_min }}{{ item.goods_price_max }}
+   22.搜索頁
+      @/views/search/index.vue
+      1.導航欄/導航組件
+	import { NavBar } from 'vant'
+      2.搜索框/表單組件
+	import { Search } from 'vant'
+	<template #action>
+      3.最近搜索/宮格/導航組件
+	import { Icon } from 'vant'
+	<van-icon name="delete-o" size="16">
+        import { Grid, GridItem } from 'vant'
+        history: ['搜索A', '搜索B', '搜索C']
+	v-if="history.length > 0"
+	v-for="item in history" :key="item" {{ item }}
+      4.搜索事件
+	1.搜索框
+	  v-model.trim="search"
+	  @click="goSearch(search)"
+	2.最近搜索
+	  @click="goSearch(item)"
+	methods: {
+	  goSearch (key) {
+	    const index = this.history.indexOf(key)
+	    if (index !== -1) {
+	      this.history.splice(index, 1)
+	    }
+	    // 或者this.history = this.history.filter(i => i !== key)
+	    this.history.unshift(key)
+	  }
+	}
+	3.移除最近搜索
+	  @click="clear"
+	  clear () {
+	    this.history = []
+	  }
+	4.根據搜索內容前往新頁面
+	  this.$router.push(`/searchlist?search=${key}`)
+      5.最近搜索本地持久化
+	@/utils/storage.js
+	// 獲取
+	export const getHistoryList = () => {
+	  const result = localStorage.getItem(HISTORY_KEY)
+	  return result ? JSON.parse(result) : []
+	}
+	// 儲存
+	export const setHistoryList = (arr) => {
+	  localstorage.setItem(HISTORT_KEY, JSON.stringify(arr))
+	}
+	// 修正
+	@/views/layout/search/index.vue
+	// 獲取
+	history: getHistoryList()
+	// 儲存
+	setHistoryList(this.history)
+	// 刪除
+	setHistoryList([])
+   23.搜索後的商品列表頁面
+      1.靜態結構
+        @/views/search/list.vue
+        1.導航欄/導航組件
+	  import { NavBar } from 'vant'
+        2.搜索框/表單組件
+	  import { Search } from 'vant'
+	  <template #action>
+        3.排序按鈕/宮格/導航組件
+	  import { Grid, GridItem } from 'vant'
+	  array.sort(function (a, b) {
+            return b - a; // b-a降續
+  	  });
+        4.商品卡/子組件
+	  <GoodsItem></GoodsItem>
+	  import GoodsItem from '@/components/GoodsItem.vue'
+          components: {GoodsItem}
+	  @/components/GoodsItem.vue
+          name: 'GoodsItem'
+          import { Card } from 'vant'
+      2.API接口
+        @/api/product.js
+        import request from '@/utils/request'
+        export const getProList = (obj) => {
+	  const { categoryId, goodsName, page } = obj
+	  return request.get('/goods/list', {
+	    params: {
+	      categoryId, //ID值
+	      goodsName, // 商品名稱
+	      page // 頁數
+	      // sortType, all綜合排序, sales銷量排序, price價格排序
+	    }
+	  })
+        }
+      3.準備數據並發送請求
+        @/views/search/list
+        data () {
+          return {
+	    page: 1,
+	    proList: []
+	  }
+        }
+        1.獲取路由傳參$route.query.search
+          computed: {
+	    querySearch () {
+	      return this.$route.query.search
+	    }
+          }
+          :value="querySearch || '搜索商品'"
+        2.發送請求
+	  import { getProList } from '@/api/product'
+	  async created () {
+	    const { data: { list } } = await getProList({
+	      categoryId: this.$router.query.categoryId, // 分類頁面的Id傳參
+	      goodsName: this.querySearch,
+	      page: this.page
+	    })
+	    this.proList = list.data
+	  }
+          v-for="item in peoList"
+   24.分類頁面
+      1.API接口
+	@/api/category.js
+	import request from '@/utils/request'
+	export const getCategoryData = () => {
+	  return request.get('/category/list')
+	}
+      2.頁面結構
+	@/views/layout/category.vue
+   25.產品詳情
+      1.靜態結構
+	@prodetail/index.vue
+	1.標題
+	2.輪播圖
+	3.價格銷量
+	4.商品詳情
+	5.客戶評價
+	6.商品圖片介紹
+	7.底部固定按鈕
+	  首頁,購物車,加入購物車,立即購買
+      2.接口
+	@/api/product.js
+	export const getProDetail = (goodsId) => {
+	  return request.get('/goods/detail', {
+	    params: {
+	      goodsId
+	    }
+	  })
+	}
+      3.獲取參數發送請求並渲染
+	@/prodetail/index.vue
+	import { getProDetail } from '@/api/product.js'
+	detail: {} // 獲取的整體數據
+	images: [] // 獲取的輪播圖
+	computed: {
+	  goodsId () {
+	    return this.$route.params.id // 路由傳參id
+	  }
+	}
+	created () {
+	  this.getDetail()
+	  this.getComments()
+	}
+	methades: {
+	  async getDetail () {
+	    const { data: { detail } } = await getProDetail(this.goodsId)
+	    this.detail = detail
+	    this.images = detail.goods_images
+	  }
+	}
+	// 輪播圖的v-for
+	v-for="image in images" :key="image.file_id" :src="image.external_url"
+	// 價格銷量
+	{{ detail.goods_price_min }} {{ detail.goods_price_max }} {{ detail.goods_sales }}
+	// 商品詳情
+	{{ detail.goods_name }}
+	// 商品圖片介紹
+	v-html="detail.content"
+      4.商品評價接口
+	export const getProComments = (goodsId, limit) => {
+	  return request.get('/comment/listRows', {
+	    params: {
+	      goodsId,
+	      limit
+	    }
+	  })
+	}
+      5.商品評價獲取參數發送請求並渲染
+	import defaultImg from '@/assents/img.png'
+	import { getProComments } from '@/api/product.js'
+	total: 0, // 評價總數
+	commentList: [] // 評價列表
+	defaultImg
+	async getComments () {
+	  const { data: { list, total } } = await getProComments(this.goodsId, 3)
+	  this.commentList = list
+	  this.total = total
+	}
+	// 商品評價總數
+	{{ total }}
+	// 評價盒子v-for
+	v-for="item in commentList" :key="item.comment_id"
+	// 頭像
+	:src="item.user.avatar_url || defaultImg"
+	// 名稱
+	{{ item.user.nick_name }}
+	// 評分
+	@/utils/vant-ui.js
+	import { Rate } from 'vant'
+	:value="item.score / 2"
+	// 評價內文
+	{{ item.content }}
+	// 時間
+	{{ item.create_time }}
+      6.底部固定按鈕彈出視窗
+	@/utils/vant-ui.js
+	import { ActionSheet } from 'vant'
+	<van-action-sheet v-model="showPannel" :title="mode === 'cart' ? '加入購物車' : '立刻購買'">
+  	  <div class="content">
+	    // 圖片
+	    :src="detail.goods_image"
+	    // 價格
+	    {{ detail.goods_price_min }}
+	    // 庫存
+	    {{ detail.stock_total }}
+	  </div>
+	</van-action-sheet>
+	showPannel: false // 彈層顯示與隱藏
+	mode: 'cart' // 彈層內容
+	// 加入購物車事件
+	addFn () {
+	  this.mode = 'cart'
+	  this.showPannel = true
+	}
+	// 立刻購買事件
+	buyNow () {
+	  this.mode = 'buyNow'
+	  this.showPannel = true
+	}
+      7.新增子組件_購買數量加減組件
+	@/components/CountBox
+	// 父傳子_v-model
+	<CountBox v-model="addCount"></CountBox>
+	addCount: 1
+	// 子接收_value
+	:value="value"
+	props: {
+	  value: {
+	    type: Number,
+	    default: 1
+	  }
+	}
+	// 子傳父_input
+	this.$emit('input, this.value - 1')
+	// input輸入框
+	@change="handleChange"
+	handleChange (e) {
+	  const num = +e.target.value
+	  if (isNaN(num) || num < 1) {
+	    e.target.value = this.value
+	    return
+	  } else {
+	    num = Math.floor(num)
+	  }
+	  this.$emit('input', num)
+	}
+      8.點擊加入購物車時確認登入狀態
+	1.vuex獲取user模塊底下的userInfo.token
+	@/store/index.js
+	export default new Vuex.Store({
+	  getters: {
+	    token (state) {
+	      return state.user.userInfo.token
+	    }
+	  }
+	})
+	2.沒有token是尚未登入使用彈出框
+	Vant反饋組件Dialog彈出框註冊
+	@/utils/vant-ui.js
+	inport { Dialog } from 'vant'
+	Vue.use(Dialog)
+	@/prodetail/index.vue
+	addCart () {
+	  if (!this.$store.getters.token) {
+	    this.$dialog.confirm({
+	      title: '溫馨提示',
+	      message: '此處須先登入才能繼續操作',
+	      confirmButtonText: '去登錄',
+	      cancelButtonText: '在逛逛'
+	    })
+	      .then(() => {
+	        // confirmButton的點擊事件
+	        this.$router.replace({
+	  	  path: '/login',
+	  	  query: {
+	    	    backUrl: this.$route.fullPath
+	 	  }
+		})
+	      })
+	        // cancelButton的點擊事件
+	      .catch(() => {
+	        
+	      })
+	    return
+	  }
+	}
+	修正並使用路由參數來返回頁面
+	@/login/index.vue
+	const url = this.$route.query.backUrl || '/'
+	this.$router.replace(url)
+      9.點擊加入購物車
+        1.API接口
+	  @/api/cart.js
+	  import request from '@/utils/request'
+	  export const addCart = (goodsId, goodsNum, goodsSkuId) => {
+	    return request.post('/cart/add', {
+	      goodsId,
+	      goodsNum,
+	      goodsSkuId
+	    })
+	  }
+	2.回商品詳情頁調用接口
+	  @/prodetail/index.vue
+	  cartTotal: 0
+	  async addCart () {
+	    if (...) {...}
+	    const { data } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
+	    this.cartTotal = data.cartTotal
+	    this.$toast('加入購物車成功')
+	    this.showPannel = false
+	  }
+	3.請求攔截器添加token確認登入
+	  @/utils/request.js
+	  import store from '@/store/index.js'
+	  instance.interceptors.request.use(function (config) {
+	    const token = store.state.user.userInfo.token
+    	    if (token) {
+	      config.headers['Access-Token'] = token // 接口的指定標頭.headers['Access-Token']
+	      config.headers.platform = 'H5' // 接口的指定標頭.headers.platform
+	    }
+   	    return config
+ 	  }
+   26.購物車頁面
+      1.引入vant-複選框
+	import Vue from 'vue';
+	import { Checkbox, CheckboxGroup } from 'vant';
+	Vue.use(Checkbox);
+	Vue.use(CheckboxGroup);
+	<van-checkbox :value="item.isChecked"></van-checkbox>
+      2.引入局部組件-數量增減組件
+	import CountBox from '@/components/CountBox.vue'
+	components: { CountBox }
+	<CountBox :value="item.goods_num"></CountBox>
+      3.靜態結構-cart.vue
+	@/views/layout/cart.vue
+      4.構建vuex模塊-cart.js
+	@/store/modules/cart.js
+	export default {
+	  namespaced: true,
+	  state () {
+	    return {
+	      cartList: []
+	    }
+	  },
+	  mutations: {},
+	  actions: {},
+	  getters: {}
+	}
+	將cart導入$store
+	@/store/modules/index.js
+	import cart from './modules/cart'
+	modules: {cart}
+      5.獲取購物車列表接口
+	@/api/cart.js
+	export const getCartList = () => {
+	  return request.get('/cart/list')
+	}
+      6.在模塊中調用接口
+	@/store/modules/cart.js
+	import { getCartList } from '@/api/cart'
+	// 建立修改cartList數據的方法
+	mutations: {
+	  setCartList (state, newList) {
+	    state.cartList = newList
+	  }
+	}
+	// 異步調用接口使用commit調用setCartList函式並傳參
+	actions: {
+	  async getCartAction (context) {
+	    const { data } = await getCartList()
+	    // 對數據新增勾選框狀態
+	    data.list.forEach(item => {
+      	      item.isChecked = true
+    	    })
+	    context.commit('setCartList', data.list)
+	  }
+	}
+      7.在頁面中調用模塊
+        @/views/layout/cart.vue
+	//導入mapState調用state的cartList
+	import { mapState } from 'vuex'
+        computed: {
+	  ...mapState('cart',['cartList'])
+	},
+	created () {
+	  // 確認登入狀態後調用模塊的actions要用dispatch
+	  if (this.$store.getters.token) {
+    	    this.$store.dispatch('cart/getCartAction')
+  	  }
+	},
+	// 使用數據渲染
+	v-for="item in cartList"
+	:key="item.goods_id"
+	複選框:value="item.isChecked"
+	圖片:src="item.goods.goods_image"
+	名稱{{ item.goods.goods_name }}
+	價格{{ item.goods.goods_price }}
+	數量:value="item.goods_num"
+<!-- 购物车列表 -->
+<div class="cart-list">
+  <div class="cart-item" v-for="item in cartList" :key="item.goods_id">
+    <van-checkbox icon-size="18" :value="item.isChecked"></van-checkbox>
+    <div class="show" @click="$router.push(`/prodetail/${item.goods_id}`)">
+      <img :src="item.goods.goods_image" alt="">
+    </div>
+    <div class="info">
+      <span class="tit text-ellipsis-2">{{ item.goods.goods_name }}</span>
+      <span class="bottom">
+        <div class="price">¥ <span>{{ item.goods.goods_price_min }}</span></div>
+        <CountBox :value="item.goods_num"></CountBox>
+      </span>
+    </div>
+  </div>
+</div>
+      8.在模塊中封裝getter計算屬性
+	@/store/modules/cart.js
+getters: {
+  //商品總數
+  cartTotal (state) {
+    return state.cartList.reduce((sum, item, index) => sum + item.goods_num, 0)
+  },
+  //選中的商品列表
+  selCartList (state) {
+    return state.cartList.filter(item => item.isChecked)
+  },
+  //選中的商品總數量
+  selCount (state, getters) {
+    return getters.selCartList.reduce((sum, item, index) => sum + item.goods_num, 0)
+  },
+  //選中的商品總價格.toFixed(2)保留小數點第2位
+  selPrice (state, getters) {
+    return getters.selCartList.reduce((sum, item, index) => {
+      return sum + item.goods_num * item.goods.goods_price_min
+    }, 0).toFixed(2)
+  }
+}
+
+      9.使用數據渲染
+	@/views/layout/cart.vue
+import { mapGetters } from 'vuex'
+computed: {
+  ...mapGetters('cart', ['cartTotal', 'selCount', 'selPrice']),
+},
+
+<!-- 购物车开头 -->
+<div class="cart-title">
+  <span class="all">共<i>{{ cartTotal || 0 }}</i>件商品</span>
+  <span class="edit">
+    <van-icon name="edit"  />
+    编辑
+  </span>
+</div>
+<!-- 购物车列表在此省略 -->
+
+<div class="footer-fixed">
+  <div  class="all-check">
+    <van-checkbox  icon-size="18"></van-checkbox>
+    全选
+  </div>
+  <div class="all-total">
+    <div class="price">
+      <span>合计：</span>
+      <span>¥ <i class="totalPrice">{{ selPrice }}</i></span>
+    </div>
+    <div v-if="true" :class="{ disabled: selCount === 0 }" class="goPay">
+      结算({{ selCount }})
+    </div>
+    <div v-else  :class="{ disabled: selCount === 0 }" class="delete">
+      删除({{ selCount }})
+    </div>
+  </div>
+</div>
+     10.勾選框
+	小勾選框點擊事件
+	@/views/layout/cart.vue
+	<van-checkbox @click="toggleCheck(item.goods_id)" ...></van-checkbox>
+
+	toggleCheck (goodsId) {
+	  this.$store.commit('cart/toggleCheck', goodsId)
+	},
+
+	@/store/modules/cart.js
+	mutations: {
+	  // 依照id修改vuex的勾選數據
+	  toggleCheck (state, goodsId) {
+	    const goods = state.cartList.find(item => item.goods_id === goodsId)
+	    goods.isChecked = !goods.isChecked
+	  }
+	}
+
+	getters: {
+	  // 依照所有vuex的勾選數據來判斷是否全選
+	  isAllChecked (state) {
+	    return state.cartList.every(item => item.isChecked)
+	  }
+	}
+
+	@/views/layout/cart.vue
+	computed: {
+	  ...mapGetters('cart', ['isAllChecked']),
+	}
+	<div class="all-check">
+	  <van-checkbox :value="isAllChecked" icon-size="18"></van-checkbox>
+	  全選
+	</div>
+
+	全選框點擊事件
+	@/views/layout/cart.vue
+	<div @click="toggleAllCheck" class="all-check">
+	  <van-checkbox :value="isAllChecked" icon-size="18"></van-checkbox>
+	  全選
+	</div>
+
+	toggleAllCheck () {
+	  this.$store.commit('cart/toggleAllCheck', !this.isAllChecked)
+	}
+
+	@/store/modules/cart.js
+	mutations: {
+	  // 根據反轉後的全選框狀態改變每個小選框
+	  toggleAllCheck (state, flag) {
+ 	   state.cartList.forEach(item => {
+	      item.isChecked = flag
+	    })
+	  }
+	}
+
+     11.商品數量
+	封装 api 接口
+	@/api/cart.js
+	// 更新購物車商品數量
+	export const changeCount = (goodsId, goodsNum, goodsSkuId) => {
+	  return request.post('/cart/update', {
+	    goodsId,
+	    goodsNum,
+	    goodsSkuId
+	  })
+	}
+	
+	@/views/layout/cart.vue
+	<!-- 由於要在vuex修改數據不能直接改所以用箭頭函數觸發事件 -->
+	<CountBox :value="item.goods_num" @input="value => changeCount(value, item.goods_id, item.goods_sku_id)"></CountBox>
+
+	changeCount (value, goodsId, skuId) {
+	  this.$store.dispatch('cart/changeCountAction', {
+	    value,
+	    goodsId,
+	    skuId
+	  })
+	},
+
+	@/store/modules/cart.js
+	// 導入api修改數量的接口
+	import { changeCount } from '@/api/cart'
+	mutations: {
+	  // 修改vuex的數據
+	  changeCount (state, { goodsId, value }) {
+	    const obj = state.cartList.find(item => item.goods_id === goodsId)
+	    obj.goods_num = value
+	  }
+	},
+	actions: {
+	  // 傳入數據並使用修改vuex的方法修改數量的數據
+	  async changeCountAction (context, obj) {
+	    const { goodsId, value, skuId } = obj
+	    context.commit('changeCount', {
+ 	      goodsId,
+	      value
+	  })
+	  // 使用api接口修改後台數據
+	    await changeCount(goodsId, value, skuId)
+	  }
+	}
+
+     12.編輯功能
+	@/views/layout/cart.vue
+	// 設置編輯狀態的參數
+	data () {
+	  return {
+	    isEdit: false
+	  }
+	}
+	<!-- 編輯按鈕取反參數 -->
+	<span class="edit" @click="isEdit = !isEdit">
+	  <van-icon name="edit"  />
+	  編輯
+	</span>
+	<!-- 根據參數顯示刪除按鈕 -->
+	<div v-if="!isEdit" :class="{ disabled: selCount === 0 }" class="goPay">
+	  去結算（{{ selCount }}）
+	</div>
+	<div v-else :class="{ disabled: selCount === 0 }" class="delete">
+	  刪除
+	</div>
+	// 監聽參數的狀態修改選取框的勾選
+	watch: {
+	  isEdit (value) {
+	    if (value) {
+	      this.$store.commit('cart/toggleAllCheck', false)
+	    } else {
+	      this.$store.commit('cart/toggleAllCheck', true)
+	    }
+	  }
+	}
+	// 調接口
+	@/api/cart.js
+	// 刪除購物車
+	export const delSelect = (cartIds) => {
+	  return request.post('/cart/clear', {
+	    cartIds
+	  })
+	}
+	@/views/layout/cart.vue
+	<div v-else :class="{ disabled: selCount === 0 }" @click="handleDel" class="delete">
+	  删除({{ selCount }})
+	</div>
+	// 從vuex調異步方法來觸發接口
+	async handleDel () {
+	  if (this.selCount === 0) return
+	  await this.$store.dispatch('cart/delSelect')
+	  this.isEdit = false
+	}
+
+	@/store/modules/cart.js
+	import { delSelect } from '@/api/cart'
+	import { Toast } from 'vant'
+	actions: {
+	    // 刪除購物車數據
+	    async delSelect (context) {
+	      // 被選中的商品
+	      const selCartList = context.getters.selCartList
+	      // 被選中的商品的Id
+	      const cartIds = selCartList.map(item => item.id)
+	      // 調用接口傳入Id
+	      await delSelect(cartIds)
+	      Toast('刪除成功')
+
+	      // 重新渲染購物車數據
+	      context.dispatch('getCartAction')
+	    }
+	},
+
+     13.購物車為空
+	@/views/layout/cart.vue
+	<div class="cart-box" v-if="isLogin && cartList.length > 0">
+	  <!-- 購物車開頭 -->
+	  <div class="cart-title">
+	    ...
+	  </div>
+	  <!-- 購物車列表 -->
+	  <div class="cart-list">
+	    ...
+	  </div>
+	  <div class="footer-fixed">
+	    ...
+	  </div>
+	</div>
+
+	<div class="empty-cart" v-else>
+	  <img src="@/assets/empty.png" alt="">
+	  <div class="tips">
+	    您的購物車是空的，快去逛逛吧~
+	  </div>
+	  <div class="btn" @click="$router.push('/')">去逛逛</div>
+	</div>
+
+樣式
+.empty-cart {
+  padding: 80px 30px;
+  img {
+    width: 140px;
+    height: 92px;
+    display: block;
+    margin: 0 auto;
+  }
+  .tips {
+    text-align: center;
+    color: #666;
+    margin: 30px;
+  }
+  .btn {
+    width: 110px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    background-color: #fa2c20;
+    border-radius: 16px;
+    color: #fff;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+   27.結算台
+      1.地址接口
+	@/api/address.js
+	import request from '@/utils/request'
+
+	// 獲取地址列表
+	export const getAddressList = () => {
+	  return request.get('/address/list')
+	}
+      2.頁面調用接口
+	@/views/pay/index.vue
+	import { getAddressList } from '@/api/address.js'
+	data () {
+	  return {
+	    // 地址列表
+	    addressList: []
+	  }
+	},
+	computed: {
+	  // 默認獲取地址列表的第一條地址
+	  selectAddress () {
+	    return this.addressList[0] 
+	  },
+	  // 渲染出實際地址字串_將第一條地址的數據進行拼接
+	  longAddress () {
+	    const region = this.selectAddress.region
+	    return region.province + region.city + region.region + this.selectAddress.detail
+	  }
+	},
+	async created () {
+	  // 初始化地址列表
+	  this.getAddressList()
+	},
+	methods: {
+	  // 調用地址接口
+	  async getAddressList () {
+	    const { data: { list } } = await getAddressList()
+	    this.addressList = list
+	  }
+	},
+	
+	<!-- 渲染地址數據 -->
+	<div class="info" v-if="selectAddress?.address_id">
+	  <div class="info-content">
+	    <span class="name">{{ selectAddress.name }}</span>
+	    <span class="mobile">{{ selectAddress.phone }}</span>
+	  </div>
+	  <div class="info-address">
+	    {{ longAddress }}
+	  </div>
+	</div>
+
+      3.訂單接口
+	@/api/order
+	import request from '@/utils/request'
+
+	export const checkOrder = (mode, obj) => {
+	  return request.get('/checkout/order', {
+	    params: {
+ 	      mode, // cart購物車, buyNow立即購買
+	      delivery: 0,
+	      couponId: 0,
+	      isUsePoints: 0,
+	      ...obj
+	    }
+	  })
+	}
+
+      4.購物車跳轉訂單頁面並傳參
+	@/views/layout/cart.vue
+	<div @click="goPay">结算({{ selCount }})</div>
+	
+	import { selCartList } from 'vuex'
+	goPay () {
+	  // 商品數量大於0跳轉並傳參
+	  if (this.selCount > 0) {
+	    this.$router.push({
+	      path: '/pay',
+	      query: {
+	        mode: 'cart',
+		// 將所有商品id獲取組成陣列再轉字符串
+	        cartIds: this.selCartList.map(item => item.id).join(',')
+	      }
+	    })
+	  }
+	}
+
+      5.訂單頁面接收傳參參數
+	@/views/pay/index.vue
+	// 要接收的數據
+	data () {
+	  return {
+	    order: {}, // 訂單訊息
+	    personal: {} // 用戶餘額
+	  }
+	},
+	// 接收傳參
+	computed: {
+	  // 來自哪個頁面的請求
+	  mode () {
+	    return this.$route.query.mode
+	  },
+	  // 購物車商品id
+	  cartIds () {
+ 	    return this.$route.query.cartIds
+	  }
+	}
+	
+	async created () {
+	  // 初始化訂單頁面的數據
+	  this.getOrderList()
+	},
+
+	import { checkOrder } from '@/api/order'
+	methods: {
+	  // 調訂單頁面接口獲取數據
+	  async getOrderList () {
+	    // 來自購物車的參數
+	    if (this.mode === 'cart') {
+	      // 第二個傳參是obj所以要傳對象
+	      const { data: { order, personal } } = await checkOrder(this.mode, { cartIds: this.cartIds })
+	      this.order = order
+	      this.personal = personal
+	    }
+	  }
+	},
+
+      6.商品詳情頁的立即購買按鈕
+	@/views/prodetail/index.vue
+	<!-- 立即購買按鈕點擊事件 -->
+	<div class="btn" v-if="mode === 'buyNow'" @click="goBuyNow">立刻购买</div>
+
+	methods: {
+	  // 跳轉訂單頁面並傳參
+	  goBuyNow () {
+	    this.$router.push({
+	      path: '/pay',
+	      query: {
+	        mode: 'buyNow',
+	        goodsId: this.goodsId,
+	        goodsSkuId: this.detail.skuList[0].goods_sku_id,
+	        goodsNum: this.addCount
+	      }
+	    })
+	  }
+	},
+      7.訂單頁面接收傳參
+	@/views/pay/index.vue
+	computed: {
+	  goodsId () {
+	    return this.$route.query.goodsId
+	  },
+	  goodsSkuId () {
+	    return this.$route.query.goodsSkuId
+	  },
+	  goodsNum () {
+	    return this.$route.query.goodsNum
+	  }
+	}
+
+	// 調訂單頁面接口獲取數據
+	async getOrderList () {
+	  // 來自商品型情頁的參數
+	  if (this.mode === 'buyNow') {
+	    // 第二個傳參是obj所以要傳對象
+	    const { data: { order, personal } } = await checkOrder(this.mode, {
+	      goodsId: this.goodsId,
+	      goodsSkuId: this.goodsSkuId,
+	      goodsNum: this.goodsNum
+	    })
+	    this.order = order
+ 	    this.personal = personal
+	  }
+	}
+
+      8.組件實例的複用
+	新建一个 mixins 文件 mixins/loginConfirm.js
+export default {
+  methods: {
+    // 是否需要弹登录确认框
+    // (1) 需要，返回 true，并直接弹出登录确认框
+    // (2) 不需要，返回 false
+    loginConfirm () {
+      if (!this.$store.getters.token) {
+        this.$dialog.confirm({
+          title: '温馨提示',
+          message: '此时需要先登录才能继续操作哦',
+          confirmButtonText: '去登陆',
+          cancelButtonText: '再逛逛'
+        })
+          .then(() => {
+            // 如果希望，跳转到登录 => 登录后能回跳回来，需要在跳转去携带参数 (当前的路径地址)
+            // this.$route.fullPath (会包含查询参数)
+            this.$router.replace({
+              path: '/login',
+              query: {
+                backUrl: this.$route.fullPath
+              }
+            })
+          })
+          .catch(() => {})
+        return true
+      }
+      return false
+    }
+  }
+}
+
+9.在商品詳情頁面中使用mixins
+@/views/prodetail/index.vue
+import loginConfirm from '@/mixins/loginConfirm'
+
+export default {
+  name: 'ProDetail',
+  mixins: [loginConfirm],
+  ...
+}
+
+async addCart () {
+  // 在加入購物車事件中使用mixin
+  if (this.loginConfirm()) {
+    return
+  }
+  const { data } = await addCart(this.goodsId, this.addCount, this.detail.skuList[0].goods_sku_id)
+  this.cartTotal = data.cartTotal
+  this.$toast('加入购物车成功')
+  this.showPannel = false
+  console.log(this.cartTotal)
+},
+
+goBuyNow () {
+  // 在立刻購買事件中使用mixin
+  if (this.loginConfirm()) {
+    return
+  }
+  this.$router.push({
+    path: '/pay',
+    query: {
+      mode: 'buyNow',
+      goodsId: this.goodsId,
+      goodsSkuId: this.detail.skuList[0].goods_sku_id,
+      goodsNum: this.addCount
+    }
+  })
+}
+
+10. 提交訂單
+
+// 提交訂單的接口
+@/api/order.js
+// mode: cart => params { cartIds, remark }
+// mode: buyNow => params { goodsId, goodsNum, goodsSkuId, remark }
+export const submitOrder = (mode, params) => {
+  return request.post('/checkout/submit', {
+    mode,
+    delivery: 10, // 物流方式 (10快遞配送 20門店自領)
+    couponId: 0, // 優惠券 id
+    payType: 10, // 餘額支付
+    isUsePoints: 0, // 是否使用積分
+    ...params
+  })
+}
+
+// 訂單頁面買家留言數據
+@/views/pay/index.vue
+data () {
+  return {
+    remark: ''
+  }
+},
+<div class="buytips">
+  <textarea v-model="remark" placeholder="選填：買家留言（50字內）" name="" id="" cols="30" rows="10">
+  </textarea>
+</div>
+
+// 訂單提交按鈕_調接口傳數據
+@/views/pay/index.vue
+<div class="tipsbtn" @click="submitOrder">提交訂單</div>
+
+// 提交訂單
+import { submitOrder } from '@/api/order.js'
+async submitOrder () {
+  if (this.mode === 'cart') {
+    await submitOrder(this.mode, {
+      remark: this.remark,
+      cartIds: this.cartIds
+    })
+  }
+  if (this.mode === 'buyNow') {
+    await submitOrder(this.mode, {
+      remark: this.remark,
+      goodsId: this.goodsId,
+      goodsSkuId: this.goodsSkuId,
+      goodsNum: this.goodsNum
+    })
+  }
+  this.$toast.success('支付成功')
+  this.$router.replace('/myorder')
+}
+
+////////////////////////////////////////////////////////////////
+--二十八--我的訂單頁面
+
+1.訂單商品列表接口
+@/api/order.js
+// 訂單商品列表
+export const getMyOrderList = (dataType, page) => {
+  return request.get('/order/list', {
+    params: {
+      dataType,
+      page
+    }
+  })
+}
+
+2.Tab綁定name_用查詢參數來改active
+@/views/myorder/index.vue
+<van-tabs v-model="active" sticky>
+  <van-tab name="all" title="全部"></van-tab>
+  <van-tab name="payment" title="待支付"></van-tab>
+  <van-tab name="delivery" title="待發貨"></van-tab>
+  <van-tab name="received" title="待收貨"></van-tab>
+  <van-tab name="comment" title="待評價"></van-tab>
+</van-tabs>
+
+data () {
+  return {
+    active: this.$route.query.dataType || 'all',
+    page: 1,
+    list: []
+  }
+},
+
+3.請求接口獲取列表數據
+@/views/myorder/index.vue
+import getMyOrderList from '@/api/order.js'
+methods: {
+  async getOrderList () {
+    const { data: { list } } = await getMyOrderList(this.active, this.page)
+    // 獲取商品總數量
+    list.data.forEach((item) => {
+      item.total_num = 0
+      item.goods.forEach(goods => {
+        item.total_num += goods.total_num
+      })
+    })
+    // 替換列表
+    this.list = list.data
+  }
+},
+watch: {
+  // 監聽Tab重新調用接口
+  active: {
+    immediate: true,
+    handler () {
+      this.getOrderList()
+    }
+  }
+}
+// 我的訂單商品列表組件數據渲染
+
+////////////////////////////////////////////////////////////////
+--二十九--個人中心頁面
+
+1.接口_獲取個人訊息
+@/api/user.js
+import request from '@/utils/request'
+
+// 獲取個人訊息
+export const getUserInfoDetail = () => {
+  return request.get('/user/info')
+}
+
+2.結構
+@views/layout/user.vue
+<template>
+  <div class="user">
+    <div class="head-page" v-if="isLogin">
+      <div class="head-img">
+        <img src="@/assets/default-avatar.png" alt="" />
+      </div>
+      <div class="info">
+        <div class="mobile">{{ detail.mobile }}</div>
+        <div class="vip">
+          <van-icon name="diamond-o" />
+          普通會員
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="head-page" @click="$router.push('/login')">
+      <div class="head-img">
+        <img src="@/assets/default-avatar.png" alt="" />
+      </div>
+      <div class="info">
+        <div class="mobile">未登錄</div>
+        <div class="words">點擊登錄帳號</div>
+      </div>
+    </div>
+
+    <div class="my-asset">
+      <div class="asset-left">
+        <div class="asset-left-item">
+          <span>{{ detail.pay_money || 0 }}</span>
+          <span>帳戶餘額</span>
+        </div>
+        <div class="asset-left-item">
+          <span>0</span>
+          <span>積分</span>
+        </div>
+        <div class="asset-left-item">
+          <span>0</span>
+          <span>優惠券</span>
+        </div>
+      </div>
+      <div class="asset-right">
+        <div class="asset-right-item">
+          <van-icon name="balance-pay" />
+          <span>我的錢包</span>
+        </div>
+      </div>
+    </div>
+    <div class="order-navbar">
+      <div class="order-navbar-item" @click="$router.push('/myorder?dataType=all')">
+        <van-icon name="balance-list-o" />
+        <span>全部訂單</span>
+      </div>
+      <div class="order-navbar-item" @click="$router.push('/myorder?dataType=payment')">
+        <van-icon name="clock-o" />
+        <span>待支付</span>
+      </div>
+      <div class="order-navbar-item" @click="$router.push('/myorder?dataType=delivery')">
+        <van-icon name="logistics" />
+        <span>待發貨</span>
+      </div>
+      <div class="order-navbar-item" @click="$router.push('/myorder?dataType=received')">
+        <van-icon name="send-gift-o" />
+        <span>待收貨</span>
+      </div>
+    </div>
+
+    <div class="service">
+      <div class="title">我的服務</div>
+      <div class="content">
+        <div class="content-item">
+          <van-icon name="records" />
+          <span>收貨地址</span>
+        </div>
+        <div class="content-item">
+          <van-icon name="gift-o" />
+          <span>領券中心</span>
+        </div>
+        <div class="content-item">
+          <van-icon name="gift-card-o" />
+          <span>優惠券</span>
+        </div>
+        <div class="content-item">
+          <van-icon name="question-o" />
+          <span>我的幫助</span>
+        </div>
+        <div class="content-item">
+          <van-icon name="balance-o" />
+          <span>我的積分</span>
+        </div>
+        <div class="content-item">
+          <van-icon name="refund-o" />
+          <span>退換/售後</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="logout-btn">
+     <button>退出登錄</button>
+    </div>
+  </div>
+</template>
+
+<script>
+import { getUserInfoDetail } from '@/api/user.js'
+export default {
+  name: 'UserPage',
+  data () {
+    return {
+      detail: {}
+    }
+  },
+  created () {
+    if (this.isLogin) {
+      this.getUserInfoDetail()
+    }
+  },
+  computed: {
+    isLogin () {
+      return this.$store.getters.token
+    }
+  },
+  methods: {
+    async getUserInfoDetail () {
+      const { data: { userInfo } } = await getUserInfoDetail()
+      this.detail = userInfo
+      console.log(this.detail)
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+.user {
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  padding-bottom: 50px;
+}
+
+.head-page {
+  height: 130px;
+  background: url("http://cba.itlike.com/public/mweb/static/background/user-header2.png");
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  .head-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 10px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+.info {
+  .mobile {
+    margin-bottom: 5px;
+    color: #c59a46;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .vip {
+    display: inline-block;
+    background-color: #3c3c3c;
+    padding: 3px 5px;
+    border-radius: 5px;
+    color: #e0d3b6;
+    font-size: 14px;
+    .van-icon {
+      font-weight: bold;
+      color: #ffb632;
+    }
+  }
+}
+
+.my-asset {
+  display: flex;
+  padding: 20px 0;
+  font-size: 14px;
+  background-color: #fff;
+  .asset-left {
+    display: flex;
+    justify-content: space-evenly;
+    flex: 3;
+    .asset-left-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      span:first-child {
+        margin-bottom: 5px;
+        color: #ff0000;
+        font-size: 16px;
+      }
+    }
+  }
+  .asset-right {
+    flex: 1;
+    .asset-right-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      .van-icon {
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+.order-navbar {
+  display: flex;
+  padding: 15px 0;
+  margin: 10px;
+  font-size: 14px;
+  background-color: #fff;
+  border-radius: 5px;
+  .order-navbar-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    .van-icon {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.service {
+  font-size: 14px;
+  background-color: #fff;
+  border-radius: 5px;
+  margin: 10px;
+  .title {
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+    font-size: 16px;
+  }
+  .content {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    font-size: 14px;
+    background-color: #fff;
+    border-radius: 5px;
+    .content-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 25%;
+      margin-bottom: 20px;
+
+      .van-icon {
+        font-size: 24px;
+        margin-bottom: 5px;
+        color: #ff3800;
+      }
+    }
+  }
+}
+
+.logout-btn {
+  button {
+    width: 60%;
+    margin: 10px auto;
+    display: block;
+    font-size: 13px;
+    color: #616161;
+    border-radius: 9px;
+    border: 1px solid #dcdcdc;
+    padding: 7px 0;
+    text-align: center;
+    background-color: #fafafa;
+  }
+}
+</style>
+
+3.登出按鈕
+@views/layout/user.vue
+<button @click="logout">登出</button>
+
+methods: {
+  logout () {
+    // vant提示框組件dialog
+    this.$dialog.confirm({
+      title: '溫馨提示',
+      message: '你確認要登出麼？'
+    })
+      .then(() => {
+	// 在vuex提供方法
+        this.$store.dispatch('user/logout')
+      })
+      .catch(() => {
+
+      })
+  }
+}
+
+// 在vuex提供方法
+@/store/modules/user.js
+actions: {
+  logout (context) {
+    context.commit('setUserInfo', {})
+    // 跨模塊的使用附加{ root: true }
+    context.commit('cart/setCartList', [], { root: true })
+  }
+},
+
+///////////////////////////////////////////////////
+-- 最後 -- 打包
+
+1.在根目錄創建dist文件夾與打包內容
+yarn build
+或者
+npm run build
+
+2.路徑讀取更改為相對路徑
+@/vue.config.js
+module.exports = {
+  // 设置获取.js,.css文件时，是以相对地址为基准的。
+  // https://cli.vuejs.org/zh/config/#publicpath
+  publicPath: './'
+}
+
+3.使用router懶加載
+@/router/index.js
+修改以下路由
+Login, Search, SearchList, ProDetail, Pay, MyOrder
+將原本的
+import Login from 'views/login'
+修改為
+const Login = () => import('@/views/login')
+並將const移到import的下方位置
